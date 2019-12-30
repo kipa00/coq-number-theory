@@ -12,6 +12,15 @@ Proof.
   + subst. induction m; eauto.
 Qed.
 
+Lemma eqb_false_refl : forall n m, Nat.eqb n m = false <-> n <> m.
+Proof.
+  intros. split; intros.
+  + intro Hcontra. apply eqb_refl in Hcontra.
+    rewrite Hcontra in H; tinv H.
+  + destruct (Nat.eqb n m) eqn: EQ; refl. apply eqb_refl in EQ.
+    destruct (H EQ).
+Qed.
+
 Lemma leb_refl : forall n m, Nat.leb n m = true <-> n <= m.
 Proof.
   intros; split; revert m.
@@ -69,6 +78,7 @@ Ltac bdestruct b :=
   | H : Nat.eqb _ _ = true |- _ => apply eqb_refl in H
   | H : Nat.leb _ _ = true |- _ => apply leb_refl in H
   | H : Nat.ltb _ _ = true |- _ => apply ltb_refl in H
+  | H : Nat.eqb _ _ = false |- _ => apply eqb_false_refl in H
   | H : Nat.leb _ _ = false |- _ => apply leb_false_refl in H
   | H : Nat.ltb _ _ = false |- _ => apply ltb_false_refl in H
   end
