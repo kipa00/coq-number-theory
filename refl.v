@@ -1,4 +1,5 @@
 Require Export basic_arith.
+Require Export inequality.
 
 Ltac refl := try reflexivity.
 Ltac tinv hyp := try (inversion hyp; fail).
